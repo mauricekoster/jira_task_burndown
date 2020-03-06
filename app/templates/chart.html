@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{ sprint }}</h1>
+          <!--
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div>
+        -->
+      </div>
+
+    <!-- bar chart canvas element -->
+
+      <canvas class="my-4 w-80" id="myChart" width="900" height="380"></canvas>
+{% endblock %}
+
+{% block script %}
+<script>
+    // Global parameters:
+    // do not resize the chart canvas when its container does (keep at 600x400px)
+    Chart.defaults.global.responsive = false;
+
+    // get chart canvas
+    var ctx = document.getElementById("myChart").getContext("2d");
+    fetch('/api/data')
+        .then((response) => {
+            return response.json();
+        }).then((data) => {
+        var myChart = new Chart(ctx, data);
+    });
+
+</script>
+{% endblock %}
